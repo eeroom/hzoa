@@ -1,0 +1,18 @@
+.header{
+    position: 'fixed';
+    z-index: 1;
+      width: '100%'
+}
+.logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px 28px 16px 0;
+    float: left
+  }
+  .sider{
+    overflow: 'auto';
+    height: '100vh';
+    position: 'fixed';
+    left: 0
+  }
