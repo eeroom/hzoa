@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Dropdown } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
 import './layoutfluid.css'
 const { SubMenu } = Menu;
@@ -87,37 +87,61 @@ class LayoutFluid extends React.Component {
 
 
     }
-    onTitleClickHandler=({key,domEvent})=>{
-        let sideropenKeys=[...this.state.sideropenKeys]
-        if(sideropenKeys.includes(key)){
-            sideropenKeys=sideropenKeys.filter(x=>x!=key)
-        }else{
+    onTitleClickHandler = ({ key, domEvent }) => {
+        let sideropenKeys = [...this.state.sideropenKeys]
+        if (sideropenKeys.includes(key)) {
+            sideropenKeys = sideropenKeys.filter(x => x != key)
+        } else {
             sideropenKeys.push(key)
         }
-        this.setState({...this.state,sideropenKeys})
+        this.setState({ ...this.state, sideropenKeys })
     }
     render() {
         let { lstnav, selectednav, siderselectedKeys, sideropenKeys } = this.state
+        const lstdropdwonItem = (
+            <Menu style={{marginTop:10,width:160}}>
+                <Menu.Item key="0">
+                    <span><Icon type="setting" /></span>
+                    <span>个人设置</span>
+
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="1">
+                    <span><Icon type="logout" /></span>
+                    <span>退出登录</span>
+                </Menu.Item>
+            </Menu>
+        );
         return (
             <Layout>
                 <Header style={{
                     position: 'fixed',
                     zIndex: 1,
-                    width: '100%'
+                    width: '100%',
+                    height: 52
                 }}>
                     <div className="logo" >燃烧的远征</div>
+                    <div className="logout">
+                        <Dropdown overlay={lstdropdwonItem}>
+                            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                <span style={{ color: '#fff',marginLeft:10 }}> <Icon type="user" /><span style={{ marginLeft: 5 }}>eeroom</span></span>
+                            </a>
+                        </Dropdown>
+                    </div>
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        selectedKeys={[selectednav.id+'']}
-                        style={{ lineHeight: '64px' }}
+                        selectedKeys={[selectednav.id + '']}
+                        style={{ lineHeight: '52px', height: 52 }}
                     >
                         {lstnav.map(x => (<Menu.Item key={x.id}><Link to={x.url || x.navurl}>{x.name}</Link></Menu.Item>))}
                     </Menu>
+
+
                 </Header>
                 <Layout>
                     <Sider width={200} style={{
-                        background: '#fff', marginTop: 64, overflow: 'auto',
+                        background: '#fff', marginTop: 48, overflow: 'auto',
                         height: '100vh',
                         position: 'fixed',
                         left: 0
@@ -128,7 +152,7 @@ class LayoutFluid extends React.Component {
                             openKeys={sideropenKeys}
                             style={{ height: '100%', borderRight: 0 }}
                         >
-                            {selectednav.children&&selectednav.children.map(l1 => (<SubMenu
+                            {selectednav.children && selectednav.children.map(l1 => (<SubMenu
                                 key={l1.id}
                                 onTitleClick={this.onTitleClickHandler}
                                 title={
@@ -141,7 +165,7 @@ class LayoutFluid extends React.Component {
                             </SubMenu>))}
                         </Menu>
                     </Sider>
-                    <Layout style={{ padding: '0 20px', marginTop: 64, marginLeft: 200 }}>
+                    <Layout style={{ padding: '0 20px', marginTop: 52, marginLeft: 200 }}>
                         <Breadcrumb style={{ margin: '16px 0' }}>
                             <Breadcrumb.Item>Home</Breadcrumb.Item>
                             <Breadcrumb.Item>List</Breadcrumb.Item>

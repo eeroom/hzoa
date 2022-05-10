@@ -1,8 +1,17 @@
 .logo {
     width: 130px;
     height: 31px;
-    margin: 16px 28px 16px 0;
+    margin: 11px 28px 11px 0;
     float: left;
+    font-size: 20px;
+    line-height: 31px;
+    color: #fff;
+  }
+  .logout{
+    width: 130px;
+    height: 31px;
+    margin: 11px 0 11px 0;
+    float: right;
     font-size: 20px;
     line-height: 31px;
     color: #fff;

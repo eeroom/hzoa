@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
-import './index.css'
 import LayoutFluid from '../../component/layoutfluid'
 import useLayout from '../../component/useLayout'
 const { SubMenu } = Menu;

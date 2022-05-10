@@ -4,7 +4,6 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
 import LayoutFluid from '../../component/layoutfluid'
 import useLayout from '../../component/useLayout'
-import './index.css'
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 let lstmenu = [
@@ -38,7 +37,7 @@ class Start extends React.Component {
     render() {
        
         return (
-            <div>创建流程</div>)
+            <div style={{minHeight:1890}}>创建流程</div>)
     }
 }
 
