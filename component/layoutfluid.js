@@ -15,7 +15,7 @@ let lstmenu = [
     { id: 212, name: '待办列表', url: '/workflow/todolist', pid: 21 },
     { id: 213, name: '已办列表', url: '/workflow/historylist', pid: 21 },
     { id: 22, name: '流程设置', pid: 2, ico: 'laptop' },
-    { id: 220, name: '流程定义', url: '/workflow/setting', pid: 22 },
+    { id: 220, name: '流程定义', url: '/workflow/definition', pid: 22 },
     { id: 221, name: '表单配置', url: '/workflow/form', pid: 22 },
     { id: 222, name: '审批配置', url: '/workflow/approve', pid: 22 },
     { id: 3, name: '公司网盘', url: '/wangpan/index' },
@@ -55,45 +55,51 @@ class LayoutFluid extends React.Component {
             return getnavurl(nav.children[0])
         }
         lstnav.forEach(x => x.navurl = getnavurl(x))
+
+        let { location } = this.props;
+        let { pathname } = location;
+        if (pathname == "/") {
+            pathname = "/home/index"
+        }
+        let leaf = lstmenu.find(x => x.url == pathname);
+        if (!leaf) {
+            leaf=lstmenu.fill(x=>x.url=="/home/index")
+        }
+        let sideropenKeys=[]
+        let findnav = (menu,sideropenKeys) => {
+            if (!menu.pid) {
+                return menu
+            }
+            sideropenKeys.push(menu.id+'')
+            return findnav(menu.parent,sideropenKeys)
+        }
+        let selectednav = findnav(leaf,sideropenKeys)
+        //sideropenKeys = selectednav.children.map(x => x.id + '')
+        let siderselectedKeys = [leaf.id + '']
+        this.setState({ ...this.state, selectednav, sideropenKeys, siderselectedKeys })
+
         this.state = {
             lstnav,
             lstmenu,
-            selectednav: {},
-            siderselectedKeys: [],
-            sideropenKeys: []
+            selectednav,
+            siderselectedKeys,
+            sideropenKeys
         }
     }
     componentDidMount() {
         console.log("componentDidMount-layoutfluid")
-        let { location } = this.props;
-        let { pathname } = location;
-        let { lstmenu } = this.state
-        if (pathname == "/") {
-            pathname = "/home/index"
-        }
-        var leaf = lstmenu.find(x => x.url == pathname);
-        if (!leaf) {
-            return
-        }
-        let findnav = (menu) => {
-            if (!menu.pid) {
-                return menu
-            }
-            return findnav(menu.parent)
-        }
-        let selectednav = findnav(leaf)
-        let sideropenKeys = selectednav.children.map(x => x.id + '')
-        let siderselectedKeys = [leaf.id + '']
-        this.setState({ ...this.state, selectednav, sideropenKeys, siderselectedKeys })
+      
 
 
     }
     onTitleClickHandler = ({ key, domEvent }) => {
         let sideropenKeys = [...this.state.sideropenKeys]
         if (sideropenKeys.includes(key)) {
-            sideropenKeys = sideropenKeys.filter(x => x != key)
+            //sideropenKeys = sideropenKeys.filter(x => x != key)
+            sideropenKeys=[]
         } else {
-            sideropenKeys.push(key)
+            //sideropenKeys.push(key)
+            sideropenKeys=[key]
         }
         this.setState({ ...this.state, sideropenKeys })
     }
