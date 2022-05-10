@@ -1,0 +1,13 @@
+.logo {
+    width: 130px;
+    height: 31px;
+    margin: 16px 28px 16px 0;
+    float: left;
+    font-size: 20px;
+    line-height: 31px;
+    color: #fff;
+  }
+
+  body{
+      background-color: #f0f2f5;
+  }

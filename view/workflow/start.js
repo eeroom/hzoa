@@ -31,7 +31,7 @@ let lstmenu = [
     { id: 64, name: '员工薪酬', url: '/employee/index', pid: 6 },
 ]
 
-class Index extends React.Component {
+class Start extends React.Component {
     constructor(props) {
         super(props)
         let dict = {}
@@ -63,7 +63,7 @@ class Index extends React.Component {
         }
     }
     componentDidMount() {
-        console.log("componentDidMount-homeindex")
+        console.log("componentDidMount-start")
         let { location } = this.props;
         let { pathname } = location;
         let { lstmenu } = this.state
@@ -139,7 +139,7 @@ class Index extends React.Component {
                             <Breadcrumb.Item>App</Breadcrumb.Item>
                         </Breadcrumb>
                         <Content>
-                            Content
+                            创建流程
                         </Content>
                     </Layout>
                 </Layout>
@@ -148,4 +148,4 @@ class Index extends React.Component {
     }
 }
 
-export default Index
+export default Start
