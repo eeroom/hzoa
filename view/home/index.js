@@ -9,8 +9,12 @@ class Index extends React.Component {
     render() {
         return (
             <Layout>
-                <Header className="header">
-                    <div className="logo" />
+                <Header style={{
+                    position: 'fixed',
+                    zIndex: 1,
+                    width: '100%'
+                }}>
+                    <div className="logo" >燃烧的远征</div>
                     <Menu
                         theme="dark"
                         mode="horizontal"
@@ -23,7 +27,12 @@ class Index extends React.Component {
                     </Menu>
                 </Header>
                 <Layout>
-                    <Sider className="sider" width={200} style={{ background: '#fff' }} breakpoint="md">
+                    <Sider width={200} style={{
+                        background: '#fff', marginTop: 64, overflow: 'auto',
+                        height: '100vh',
+                        position: 'fixed',
+                        left: 0
+                    }} breakpoint="md">
                         <Menu
                             mode="inline"
                             defaultSelectedKeys={['1']}
@@ -74,20 +83,13 @@ class Index extends React.Component {
                             </SubMenu>
                         </Menu>
                     </Sider>
-                    <Layout style={{ padding: '0 24px 24px' }}>
+                    <Layout style={{ padding: '0 20px', marginTop: 64, marginLeft: 200 }}>
                         <Breadcrumb style={{ margin: '16px 0' }}>
                             <Breadcrumb.Item>Home</Breadcrumb.Item>
                             <Breadcrumb.Item>List</Breadcrumb.Item>
                             <Breadcrumb.Item>App</Breadcrumb.Item>
                         </Breadcrumb>
-                        <Content
-                            style={{
-                                background: '#333333',
-                                padding: 24,
-                                margin: 0,
-                                minHeight: 1800,
-                            }}
-                        >
+                        <Content>
                             Content
                         </Content>
                     </Layout>
