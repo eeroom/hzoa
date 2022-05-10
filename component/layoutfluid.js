@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon, Dropdown } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
 import './layoutfluid.css'
+import BllAccount from '../bll/BllAccount';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 let lstmenu = [
@@ -30,7 +31,7 @@ let lstmenu = [
     { id: 63, name: '员工考勤', url: '/employee/index', pid: 6 },
     { id: 64, name: '员工薪酬', url: '/employee/index', pid: 6 },
 ]
-
+let bll=new BllAccount()
 class LayoutFluid extends React.Component {
     constructor(props) {
         super(props)
@@ -96,17 +97,22 @@ class LayoutFluid extends React.Component {
         }
         this.setState({ ...this.state, sideropenKeys })
     }
+    onclickHandler=()=>{
+        bll.logout()
+        document.location.reload()
+    }
     render() {
         let { lstnav, selectednav, siderselectedKeys, sideropenKeys } = this.state
+        let userName=bll.getcurrentUserName()
         const lstdropdwonItem = (
-            <Menu style={{marginTop:10,width:160}}>
+            <Menu style={{ marginTop: 10, width: 160 }}>
                 <Menu.Item key="0">
                     <span><Icon type="setting" /></span>
                     <span>个人设置</span>
 
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="1">
+                <Menu.Item key="1" onClick={this.onclickHandler}>
                     <span><Icon type="logout" /></span>
                     <span>退出登录</span>
                 </Menu.Item>
@@ -124,7 +130,7 @@ class LayoutFluid extends React.Component {
                     <div className="logout">
                         <Dropdown overlay={lstdropdwonItem}>
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <span style={{ color: '#fff',marginLeft:10 }}> <Icon type="user" /><span style={{ marginLeft: 5 }}>eeroom</span></span>
+                                <span style={{ color: '#fff', marginLeft: 10 }}> <Icon type="user" /><span style={{ marginLeft: 5 }}>{userName}</span></span>
                             </a>
                         </Dropdown>
                     </div>
