@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
 import './index.css'
+import LayoutFluid from '../../component/layoutfluid'
+import useLayout from '../../component/useLayout'
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 let lstmenu = [
@@ -32,120 +34,11 @@ let lstmenu = [
 ]
 
 class Index extends React.Component {
-    constructor(props) {
-        super(props)
-        let dict = {}
-        lstmenu.forEach(x => {
-            x.children = []
-            dict[x.id] = x
-        })
-        lstmenu.forEach(x => {
-            if (!x.pid) {
-                return
-            }
-            x.parent = dict[x.pid]
-            x.parent.children.push(x)
-        })
-        let lstnav = lstmenu.filter(x => !x.pid)
-        let getnavurl = (nav) => {
-            if (nav.url) {
-                return nav.url
-            }
-            return getnavurl(nav.children[0])
-        }
-        lstnav.forEach(x => x.navurl = getnavurl(x))
-        this.state = {
-            lstnav,
-            lstmenu,
-            selectednav: {},
-            siderselectedKeys: [],
-            sideropenKeys: []
-        }
-    }
-    componentDidMount() {
-        console.log("componentDidMount-homeindex")
-        let { location } = this.props;
-        let { pathname } = location;
-        let { lstmenu } = this.state
-        if (pathname == "/") {
-            pathname = "/home/index"
-        }
-        var leaf = lstmenu.find(x => x.url == pathname);
-        if (!leaf) {
-            return
-        }
-        let findnav = (menu, sideropenKeys) => {
-            if (!menu.pid) {
-                return menu
-            }
-            sideropenKeys.push(menu.id)
-            return findnav(menu.parent)
-        }
-        let sideropenKeys = []
-        let selectednav = findnav(leaf, sideropenKeys)
-        let siderselectedKeys = [leaf.id]
-        this.setState({ ...this.state, selectednav, sideropenKeys, siderselectedKeys })
 
-
-    }
     render() {
-        let { lstnav, selectednav, siderselectedKeys, sideropenKeys } = this.state
         return (
-            <Layout>
-                <Header style={{
-                    position: 'fixed',
-                    zIndex: 1,
-                    width: '100%'
-                }}>
-                    <div className="logo" >燃烧的远征</div>
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        defaultSelectedKeys={[selectednav.id]}
-                        style={{ lineHeight: '64px' }}
-                    >
-                        {lstnav.map(x => (<Menu.Item key={x.id}><Link to={x.url||x.navurl}>{x.name}</Link></Menu.Item>))}
-                    </Menu>
-                </Header>
-                <Layout>
-                    <Sider width={200} style={{
-                        background: '#fff', marginTop: 64, overflow: 'auto',
-                        height: '100vh',
-                        position: 'fixed',
-                        left: 0
-                    }} breakpoint="md">
-                        <Menu
-                            mode="inline"
-                            selectedKeys={siderselectedKeys}
-                            openKeys={sideropenKeys}
-                            style={{ height: '100%', borderRight: 0 }}
-                        >
-                            {selectednav.children && selectednav.children.map(l1 => (<SubMenu
-                                key={l1.id}
-                                title={
-                                    <span>
-                                        <Icon type={l1.ico} />
-                                        {l1.name}
-                                    </span>
-                                }
-                            >{l1.children.map(l2 => (<Menu.Item key={l2.id}><Link to={l2.url}>{l2.name}</Link></Menu.Item>))}
-                            </SubMenu>))}
-                        </Menu>
-                    </Sider>
-                    <Layout style={{ padding: '0 20px', marginTop: 64, marginLeft: 200 }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>Home</Breadcrumb.Item>
-                            <Breadcrumb.Item>List</Breadcrumb.Item>
-                            <Breadcrumb.Item>App</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <Content>
-                            Content
-                        </Content>
-                    </Layout>
-                </Layout>
-            </Layout>
-        )
+            <div> Content</div>)
     }
 }
 
-export default Index
+export default useLayout(LayoutFluid)(Index)
