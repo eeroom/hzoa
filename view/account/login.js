@@ -13,7 +13,6 @@ class Login extends React.Component {
     form.validateFields(this.validateFieldsCallback)
   }
   validateFieldsCallback=async (err,formValue)=>{
-    console.log("err",{err,formValue})
       if(err){
         return
       }
@@ -32,10 +31,10 @@ class Login extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item label="用户名">
-          {getFieldDecorator("loginName",{rules:[{required:true,message:"必须输入用户名"}]})(<Input ref={el=>this.autoFocusInst=el} />)}
+          {getFieldDecorator("account",{rules:[{required:true,message:"必须输入用户名"}]})(<Input ref={el=>this.autoFocusInst=el} />)}
         </Form.Item>
         <Form.Item label="密码">
-          {getFieldDecorator("password",{rules:[{required:true,message:"必须输入密码"}]})(<Input type="password" />)}
+          {getFieldDecorator("pwd",{rules:[{required:true,message:"必须输入密码"}]})(<Input type="password" />)}
         </Form.Item>
         <Form.Item>
             <Button type="primary" htmlType="submit">登陆</Button>

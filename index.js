@@ -8,6 +8,31 @@ import HomeIndex from './view/home/index'
 import Login from './view/account/login'
 import constdict from './utils/constdict'
 import docCookies from './utils/docCookies'
+import axios from 'axios'
+
+axios.interceptors.request.use(cfg=>{
+  let token= docCookies.getItem(constdict.authentication);
+  if(token){
+    cfg.headers['authorization']=token
+  }
+  return cfg;
+})
+
+axios.interceptors.response.use(res=>{
+  let {status,data={}}=res;
+  let {code}=data;
+  if(status==401 || code==401){
+    docCookies.removeItem(constdict.authentication,"/")
+    document.location.href="/account/login"
+  }
+
+  let token=res.headers['authorization']
+  if(token){
+    docCookies.setItem(constdict.authentication,token,Infinity,"/")
+  }
+  return res
+})
+
 let store = createStore((state, action) => {
   // console.log("state", state);
   // console.log("action", action);
@@ -42,7 +67,7 @@ let ViewForbid = () => {
 
 //认证
 const authenrization=({pathname})=>{
-  return docCookies.getItem(constdict.authentication)=="ok";
+  return !!docCookies.getItem(constdict.authentication);
 }
 
 //授权
