@@ -74,16 +74,14 @@ class LayoutFluid extends React.Component {
         if (!leaf) {
             return
         }
-        let findnav = (menu, sideropenKeys) => {
+        let findnav = (menu) => {
             if (!menu.pid) {
                 return menu
             }
-            sideropenKeys.push(menu.id + '')
             return findnav(menu.parent)
         }
-        let sideropenKeys = []
-        let selectednav = findnav(leaf, sideropenKeys)
-        sideropenKeys = selectednav.children.map(x => x.id + '')
+        let selectednav = findnav(leaf)
+        let sideropenKeys = selectednav.children.map(x => x.id + '')
         let siderselectedKeys = [leaf.id + '']
         this.setState({ ...this.state, selectednav, sideropenKeys, siderselectedKeys })
 
@@ -111,7 +109,7 @@ class LayoutFluid extends React.Component {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        selectedKeys={[selectednav.id]}
+                        selectedKeys={[selectednav.id+'']}
                         style={{ lineHeight: '64px' }}
                     >
                         {lstnav.map(x => (<Menu.Item key={x.id}><Link to={x.url || x.navurl}>{x.name}</Link></Menu.Item>))}
@@ -130,7 +128,7 @@ class LayoutFluid extends React.Component {
                             openKeys={sideropenKeys}
                             style={{ height: '100%', borderRight: 0 }}
                         >
-                            {selectednav.children.map(l1 => (<SubMenu
+                            {selectednav.children&&selectednav.children.map(l1 => (<SubMenu
                                 key={l1.id}
                                 onTitleClick={this.onTitleClickHandler}
                                 title={
