@@ -33,6 +33,20 @@ class LayoutFluid extends React.Component {
         bll.logout()
         document.location.reload()
     }
+    lstdropdwonItem = (
+        <Menu style={{ marginTop: 10, width: 160 }}>
+            <Menu.Item key="0">
+                <span><Icon type="setting" /></span>
+                <span>个人设置</span>
+
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item key="1" onClick={this.onclickHandler}>
+                <span><Icon type="logout" /></span>
+                <span>退出登录</span>
+            </Menu.Item>
+        </Menu>
+    );
     render() {
         let userName = bll.getcurrentUserName()
         let { menuselected={}, lstRootmenu=[], sideropenKeys=[]} = this.props
@@ -40,20 +54,6 @@ class LayoutFluid extends React.Component {
         let root=seekRoot(menuselected)
         //状态保持,nav的url已他下面的选中的leaf为准,这样再次点nav就不会切换页面,切换别的nav后再切回来也可以保持状态
         root.navurl=menuselected.url
-        const lstdropdwonItem = (
-            <Menu style={{ marginTop: 10, width: 160 }}>
-                <Menu.Item key="0">
-                    <span><Icon type="setting" /></span>
-                    <span>个人设置</span>
-
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item key="1" onClick={this.onclickHandler}>
-                    <span><Icon type="logout" /></span>
-                    <span>退出登录</span>
-                </Menu.Item>
-            </Menu>
-        );
         return (
             <Layout>
                 <Header style={{
@@ -64,7 +64,7 @@ class LayoutFluid extends React.Component {
                 }}>
                     <div className="logo" >燃烧的远征</div>
                     <div className="logout">
-                        <Dropdown overlay={lstdropdwonItem}>
+                        <Dropdown overlay={this.lstdropdwonItem}>
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <span style={{ color: '#fff', marginLeft: 10 }}> <Icon type="user" /><span style={{ marginLeft: 5 }}>{userName}</span></span>
                             </a>
