@@ -7,11 +7,13 @@ export default class Bll{
         return Bll.dispatch(parameter);
     }
 
-    getState(){
-        return Bll.getState();
+    getStore(){
+        return Bll.getStore();
     }
 
-
+    getState(){
+        return this.getStore()[this.namespace]||{};
+    }
 
     setState(data){
         console.log("data",data)

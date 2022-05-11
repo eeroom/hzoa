@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux';
+import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux'
 import Bll from './bll/Bll';
 import { Route, HashRouter, Redirect,Switch,BrowserRouter } from 'react-router-dom';
@@ -43,7 +43,7 @@ let store = createStore((state, action) => {
 }, {});
 
 Bll.dispatch = store.dispatch;
-Bll.getState = store.getState;
+Bll.getStore = store.getState;
 
 let lstViewPage = require.context("./view", true, /\.js$/);
 console.log("lstViewPage", lstViewPage)
