@@ -34,7 +34,7 @@ class LayoutFluid extends React.Component {
         document.location.reload()
     }
     lstdropdwonItem = (
-        <Menu style={{ marginTop: 10, width: 160 }}>
+        <Menu style={{ marginTop: 15, width: 160 }}>
             <Menu.Item key="0">
                 <span><Icon type="setting" /></span>
                 <span>个人设置</span>
@@ -48,7 +48,7 @@ class LayoutFluid extends React.Component {
         </Menu>
     );
     render() {
-        let userName = bll.getcurrentUserName()
+        let userName = bll.getcurrentUserName()||''
         let { menuselected={}, lstRootmenu=[], sideropenKeys=[]} = this.props
         let seekRoot = node => node.pid ? seekRoot(node.parent) : node
         let root=seekRoot(menuselected)
@@ -64,9 +64,10 @@ class LayoutFluid extends React.Component {
                 }}>
                     <div className="logo" >燃烧的远征</div>
                     <div className="logout">
-                        <Dropdown overlay={this.lstdropdwonItem}>
+                        <Dropdown overlay={this.lstdropdwonItem} placement="bottomRight" >
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <span style={{ color: '#fff', marginLeft: 10 }}> <Icon type="user" /><span style={{ marginLeft: 5 }}>{userName}</span></span>
+                                <span style={{ color: '#fff', marginLeft: 10 }}> <Icon type="user" />
+                                <span style={{ marginLeft: 5 }}>{userName.length>9?userName.substring(0,9).padEnd(12,"."):userName}</span></span>
                             </a>
                         </Dropdown>
                     </div>
