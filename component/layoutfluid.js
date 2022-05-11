@@ -107,12 +107,7 @@ class LayoutFluid extends React.Component {
                             </SubMenu>))}
                         </Menu>
                     </Sider>
-                    <Layout style={{ padding: '0 20px', marginTop: 52, marginLeft: 200 }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>Home</Breadcrumb.Item>
-                            <Breadcrumb.Item>List</Breadcrumb.Item>
-                            <Breadcrumb.Item>App</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Layout style={{ padding: '15px 20px', marginTop: 52, marginLeft: 200 }}>
                         <Content>
                             {this.props.children}
                         </Content>
