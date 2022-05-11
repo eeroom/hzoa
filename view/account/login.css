@@ -1,7 +1,3 @@
 .ant-divider-horizontal.ant-divider-with-text-left::before,.ant-divider-horizontal.ant-divider-with-text-left::after {
     border-color: brown;
 }
-
-body{
-    background-image:url(/assets/loginbackground.svg);
-}
