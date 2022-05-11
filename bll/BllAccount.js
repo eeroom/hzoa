@@ -15,7 +15,7 @@ class BllAccount extends Bll {
         //登陆逻辑,jwttoken在data和响应头中都有
         //响应头中的token是为了方便滑动过期,axios响应拦截器自动读取token值并且更新到本地存储
         //axios请求拦截器从本地存储读取token值放到请求头中
-        await axios.post("http://localhost:8080/hzoa/login/signIn", { account, pwd });
+        await axios.post("http://localhost:8126/login/signIn", { account, pwd });
         docCookies.setItem(constdict.userName, account, Infinity, "/")
     }
 
