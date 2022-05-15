@@ -4,65 +4,50 @@ import { Table, Divider, Tag } from 'antd';
 import { Routes, Route, Link } from "react-router-dom";
 import LayoutFluid from '../../component/layoutfluid'
 import useLayout from '../../component/useLayout'
+import Bll from '../../bll/Bll'
+let bll=new Bll("definination")
 const { Column, ColumnGroup } = Table;
-const data = [
-    {
-        key: '1',
-        firstName: 'John',
-        lastName: 'Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        firstName: 'Jim',
-        lastName: 'Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        firstName: 'Joe',
-        lastName: 'Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
+
 class Definition extends React.Component {
-
+    async componentDidMount(){
+       let {data:lstdata=[]}= await bll.post("camunda/getProcessDefinitionEntity")
+       let {data:lstdef=[]}= await bll.post("procdefex/getEntities")
+       lstdata.forEach(x=>{
+            let def= lstdef.find(a=>a.procdefKey==x.key)||{}
+            x.bizType=def.bizType
+            x.completeformComponetName=def.completeformComponetName
+            x.createformComponentName=def.createformComponentName
+            x.ico=def.ico
+       })
+       bll.setState({lstdata})
+    }
     render() {
-
+        let {lstdata=[]}=this.props
         return (
-            <Table dataSource={data}>
-                <ColumnGroup title="Name">
-                    <Column title="First Name" dataIndex="firstName" key="firstName" />
-                    <Column title="Last Name" dataIndex="lastName" key="lastName" />
-                </ColumnGroup>
-                <Column title="Age" dataIndex="age" key="age" />
-                <Column title="Address" dataIndex="address" key="address" />
+            <Table dataSource={lstdata}>
+                <Column title="key" dataIndex="key" key="key" />
+                <Column title="resourceName" dataIndex="resourceName" key="resourceName" />
+                <Column title="diagramResourceName" dataIndex="diagramResourceName" key="diagramResourceName" />
+                <Column title="bizType" dataIndex="bizType" key="bizType" />
+                <Column title="completeformComponetName" dataIndex="completeformComponetName" key="completeformComponetName" />
+                <Column title="createformComponentName" dataIndex="createformComponentName" key="createformComponentName" />
+                <Column title="ico" dataIndex="ico" key="ico" />
                 <Column
-                    title="Tags"
-                    dataIndex="tags"
-                    key="tags"
-                    render={tags => (
-                        <span>
-                            {tags.map(tag => (
-                                <Tag color="blue" key={tag}>
-                                    {tag}
-                                </Tag>
-                            ))}
-                        </span>
+                    title="version"
+                    dataIndex="version"
+                    key="version"
+                    render={tag => (
+                        <Tag color="blue" key={tag}>
+                        {tag}
+                    </Tag>
                     )}
                 />
                 <Column
                     title="Action"
-                    key="action"
+                    key="id"
                     render={(text, record) => (
                         <span>
-                            <a>Invite {record.lastName}</a>
+                            <a>Invite {record.id}</a>
                             <Divider type="vertical" />
                             <a>Delete</a>
                         </span>
@@ -72,4 +57,4 @@ class Definition extends React.Component {
     }
 }
 
-export default useLayout(LayoutFluid)(Definition)
+export default connect((x)=>({...x[bll.namespace]}))(useLayout(LayoutFluid)(Definition))
